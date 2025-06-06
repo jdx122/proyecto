@@ -12,13 +12,13 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
+    <title>Marketplace</title>
     <!-- CSS files -->
-    <link href="./dist/css/tabler.min.css?1692870487" rel="stylesheet"/>
-    <link href="./dist/css/tabler-flags.min.css?1692870487" rel="stylesheet"/>
-    <link href="./dist/css/tabler-payments.min.css?1692870487" rel="stylesheet"/>
-    <link href="./dist/css/tabler-vendors.min.css?1692870487" rel="stylesheet"/>
-    <link href="./dist/css/demo.min.css?1692870487" rel="stylesheet"/>
+    <link href="{{ url('dist/css/tabler.min.css') }}" rel="stylesheet"/>
+    <link href="{{ url('dist/css/tabler-flags.min.css')}}" rel="stylesheet"/>
+    <link href="{{ url('dist/css/tabler-payments.min.css')}}" rel="stylesheet"/>
+    <link href="{{ url('dist/css/tabler-vendors.min.css')}}" rel="stylesheet"/>
+    <link href="{{ url('dist/css/demo.min.css')}}" rel="stylesheet"/>
     @yield('styles')
     <style>
       @import url('https://rsms.me/inter/inter.css');
@@ -31,7 +31,7 @@
     </style>
   </head>
   <body >
-    <script src="./dist/js/demo-theme.min.js?1692870487"></script>
+    <script src="{{ url('dist/js/demo-theme.min.js') }}'"></script>
     <div class="page">
       <!-- Navbar -->
       <header class="navbar navbar-expand-md d-print-none"  data-bs-theme="dark">
@@ -41,7 +41,7 @@
           </button>
           <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
             <a href=".">
-              <img src="./static/marketplace.png" width="110" height="32" alt="Tabler" >
+              <img src="{{ url('static/marketplace.png') }}" width="110" height="32" alt="Tabler" >
             </a>
           </h1>
           <div class="navbar-nav flex-row order-md-last">
@@ -157,7 +157,7 @@
             </div>
             <div class="nav-item dropdown">
               <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
-                <span class="avatar avatar-sm" style="background-image: url(./static/jdx.jpg)"></span>
+                <span class="avatar avatar-sm" style="background-image: url({{ url('static/jdx.jpg') }})"></span>
                 <div class="d-none d-xl-block ps-2">
                   <div>Juan D.</div>
                   <div class="mt-1 small text-secondary">Programador chiquito</div>
@@ -165,7 +165,7 @@
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">
                 <a href="#" class="dropdown-item">Status</a>
-                <a href="./profile.html" class="dropdown-item">Profile</a>
+                <a href="#" class="dropdown-item">Profile</a>
                 <a href="#" class="dropdown-item">Feedback</a>
                 <div class="dropdown-divider"></div>
                 <a href="./settings.html" class="dropdown-item">Settings</a>

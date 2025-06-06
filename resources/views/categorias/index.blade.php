@@ -2,6 +2,7 @@
 
 
     @section('styles')
+    <link rel="stylesheet" href="{{ url('css/lightbox.min.css') }}">
      <style>
       .error{
         color: red;
@@ -36,14 +37,25 @@
             <tr>
                 <td>
                   @if ($categoria->imagen)
-                  <img src="{{ url('img/categorias/' . $categoria->imagen) }}" class="img-category">  
+                  <a href="{{ url('img/categorias/' . $categoria->imagen) }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
+                    <img src="{{ url('img/categorias/' . $categoria->imagen) }}" class="img-category">
+                  </a>
+                   
                   @else
+                  <a href="{{ url('img/categorias/avatar.png') }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
                   <img src="{{ url('img/categorias/avatar.png') }}" class="img-category">
+                  </a>
                   @endif
                 </td>
                 <td>{{ $categoria->nombre }}</td>
                 <td>{{ $categoria->descripcion }}</td>
-                <td>{{ $categoria->estado }}</td>
+                <td>
+                  @if($categoria->estado == 1)
+                    <span class="badge bg-green text-white">Activo</span>
+                  @else
+                    <span class="badge bg-red text-white">Inactivo</span>
+                  @endif
+                </td>
                 <td>
                 </td>
             </tr>
@@ -123,6 +135,7 @@
     @stop
 
     @section('scripts')
+    <script src="{{ url('js/lightbox.min.js') }}"></script>
     <script>
   document.addEventListener("DOMContentLoaded", function () {
     const nombreInput = document.querySelector('input[name="nombre"]');

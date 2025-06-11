@@ -19,74 +19,87 @@
     </style>
     @stop
 
+    @section('title')
+      <h2 class="page-title">
+        Categorias
+      </h2>
+      
+      <div class="col-auto ms-auto d-print-none">  
+        <div class="btn-list">
+          <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
+            <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M12 5l0 14" /><path d="M5 12l14 0" /></svg>
+            Nuevo
+          </a>
+        </div>
+      </div>
+    @stop
+
     @section('content')
-    <h2 class="page-title">
-      Categorias
-    </h2>
-    <table class="ui celled table">
-      <trehead>
-        <tr>
-          <th>Imagen</th>
-          <th>Nombre</th>
-          <th>Descripcion</th>
-          <th>Estado</th>
-        </tr>
-      </trehead>
-      <tbody>
-        @foreach ($data as $categoria)
-        <tr>
-          <td>
-            @if ($categoria->imagen)
-            <a href="{{ url('img/categorias/' . $categoria->imagen) }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
-              <img src="{{ url('img/categorias/' . $categoria->imagen) }}" class="img-category">
-            </a>
-
-            @else
-            <a href="{{ url('img/categorias/avatar.png') }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
-              <img src="{{ url('img/categorias/avatar.png') }}" class="img-category">
-            </a>
-            @endif
-          </td>
-          <td>{{ $categoria->nombre }}</td>
-          <td>{{ $categoria->descripcion }}</td>
-          <td>
-            @if($categoria->estado == 1)
-            <span class="badge bg-green text-white">Activo</span>
-            @else
-            <span class="badge bg-red text-white">Inactivo</span>
-            @endif
-          </td>
-          <td>
-            <div>
-              <a href="{{ url('categoria/'.$categoria->id.'/edit') }}" class="btn btn-default" title="Editar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                  <path d="M16 5l3 3" />
-                </svg>
+      <table class="ui celled table">
+        <trehead>
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+          </tr>
+        </trehead>
+        <tbody>
+          @foreach ($data as $categoria)
+          <tr>
+            <td>
+              @if ($categoria->imagen)
+              <a href="{{ url('img/categorias/' . $categoria->imagen) }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
+                <img src="{{ url('img/categorias/' . $categoria->imagen) }}" class="img-category">
               </a>
-              <form action="{{ url('categoria/' . $categoria->id) }}" method="POST" style="display:inline;">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash-off">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 3l18 18" />
-                    <path d="M4 7h3m4 0h9" />
-                    <path d="M10 11l0 6" />
-                    <path d="M14 14l0 3" />
-                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923" />
-                    <path d="M18.384 14.373l.616 -7.373" />
-                    <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                  </svg>
-                </button>
-            </div>
-          </td>
-        </tr>
-        @endforeach
 
-    </table>
+              @else
+              <a href="{{ url('img/categorias/avatar.png') }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
+                <img src="{{ url('img/categorias/avatar.png') }}" class="img-category">
+              </a>
+              @endif
+            </td>
+            <td>{{ $categoria->nombre }}</td>
+            <td>{{ $categoria->descripcion }}</td>
+            <td>
+              @if($categoria->estado == 1)
+              <span class="badge bg-green text-white">Activo</span>
+              @else
+              <span class="badge bg-red text-white">Inactivo</span>
+              @endif
+            </td>
+            <td>
+              <div>
+                <a href="{{ url('categoria/'.$categoria->id.'/edit') }}" class="btn btn-default" title="Editar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                    <path d="M16 5l3 3" />
+                  </svg>
+                </a>
+                <form action="{{ url('categoria/' . $categoria->id) }}" method="POST" style="display:inline;">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash-off">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M3 3l18 18" />
+                      <path d="M4 7h3m4 0h9" />
+                      <path d="M10 11l0 6" />
+                      <path d="M14 14l0 3" />
+                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923" />
+                      <path d="M18.384 14.373l.616 -7.373" />
+                      <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                  </button>
+              </div>
+            </td>
+          </tr>
+          @endforeach
+
+      </table>
     @stop
 
     @section('modal')

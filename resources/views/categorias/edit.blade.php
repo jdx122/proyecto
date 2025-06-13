@@ -1,3 +1,5 @@
+
+
 @extends('layout')
 
 
@@ -10,11 +12,12 @@
         }
 
         .img-category {
-            width: 30px;
-            height: 30px;
+            width: 100px;
+            height: 100px;
             object-fit: cover;
             border-radius: 50px;
             box-shadow: 0 0 8px;
+            padding: 2px;
         }
 
         .card {
@@ -48,8 +51,9 @@
     <div class="card">
     <div class="card-body">
 
-            <form action="{{ url('categoria') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('categoria.update', $categoria->id) }}" method="POST" enctype="multipart/form-data">
               @csrf
+              @method('PUT')
    
               <input type="hidden" name="id" value="{{ $categoria->id }}">	
             
@@ -57,31 +61,48 @@
 
             <div class="mb-3">
               <label class="form-label">Nombre</label>
-              <input type="text" class="form-control" name="nombre" placeholder="Nombre de la categoria" autofocus required value="{{ old('nombre') }}">
+              <input type="text" class="form-control" name="nombre" placeholder="Nombre de la categoria" autofocus required value="{{ old('nombre', $categoria->nombre) }}">
             @error('nombre')
               <div class="error">{{ $message }}</div>
             @enderror
             </div>            
             
             <div class="row">
-                <div class="col-lg-6 mb-3">                  
-                    <label class="form-label">Slug</label>
-                    <input type="text" class="form-control" name="slug" placeholder="Slug de la categoria" readonly required value="{{ old('slug') }}">
-                    @error('slug')
-                    <div class="error">{{ $message }}</div>
-                    @enderror
-                </div>
-                
+        
                 <div class="col-lg-6 mb-3">
-                    <label class="form-label">imagen</label>
-                    <input type="file" class="form-control" name="imagen" placeholder="Imagen de la categoria" accept="image/*">
+                        <label class="form-label">Slug</label>
+                        <input type="text" class="form-control" name="slug" placeholder="Slug de la categoria" required value="{{ old('slug', $categoria->slug ) }}">
+                    @error('slug')
+                        <div class="error">{{ $message }}</div>
+                    @enderror
+
+                    <div class="mt-4">
+                        <label class="form-label">Imagen</label>
+                        <input type="file" class="form-control" name="imagen" placeholder="Imagen de la categoria" accept="image/*">
+                    </div>
                 </div>
+
+                <div class="col-lg-6 mb-3 d-flex align-items-center justify-content-center" style="min-height: 150px;">
+                    @if ($categoria->imagen)
+                        <a href="{{ url('img/categorias/' . $categoria->imagen) }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
+                            <img src="{{ url('img/categorias/' . $categoria->imagen) }}" class="img-category">
+                        </a>
+                    @else
+                        <a href="{{ url('img/categorias/avatar.png') }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
+                            <img src="{{ url('img/categorias/avatar.png') }}" class="img-category">
+                        </a>
+                    @endif
+                </div>
+            </div>
+
                 
                 
+
+
                 <div class="col-lg-12">
                     <div class="mb-3">                  
                         <label class="form-label">Descripcion</label>
-                        <textarea class="form-control" rows="3" name="descripcion" > {{ old('descripcion'.$categoria->descripcion) }}</textarea>
+                        <textarea class="form-control" rows="3" name="descripcion" > {{ old('descripcion', $categoria->descripcion) }}</textarea>
                         @error('descripcion')
                         <div class="error">{{ $message }}</div>
                         @enderror
@@ -92,7 +113,7 @@
         </div>
         
         <div class="mt-3">
-            <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+            <a href="{{ url('categoria') }}" class="btn btn-link link-secondary">
                 Cancelar
             </a>
             <button class="btn btn-primary ms-auto" >

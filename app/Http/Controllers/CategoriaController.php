@@ -62,7 +62,9 @@ class CategoriaController extends Controller
 
         $categoria->save();
 
-        return redirect('categoria')->with('success', 'Categoria creada correctamente');
+        return redirect('categoria')
+                ->with('success', 'Categoria creada correctamente.')
+                ->with('type', 'success');
     }
 
     /**
@@ -88,7 +90,34 @@ class CategoriaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|max:255|unique:categorias,nombre,' . $id,
+            'slug' => 'required|unique:categorias,slug,' . $id,
+            'descripcion' => 'nullable|max:255',
+            'imagen' => 'nullable|image',
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $categoria = Categoria::findOrFail($id);
+        
+        $categoria->nombre = $request->nombre;
+        $categoria->descripcion = $request->descripcion;
+        $categoria->slug = $request->slug;
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('img/categorias'), $filename);
+            $categoria->imagen = $filename;
+        }
+
+        $categoria->save();
+
+        return redirect('categoria')
+                ->with('success', 'Categoria actualizada correctamente')
+                ->with('type', 'info');
     }
 
     /**
@@ -96,6 +125,24 @@ class CategoriaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $categoria = Categoria::findOrFail($id);
+
+        //verificar si la categoria tiene productos asociados
+        if ($categoria->productos()->count() > 0) {
+            return redirect('categoria')
+                    ->with('error', 'No se puede eliminar la categoria porque tiene productos asociados.')
+                    ->with('type', 'warning');
+        }
+        
+        // Eliminar la imagen si existe
+        if ($categoria->imagen && file_exists(public_path('img/categorias/' . $categoria->imagen))) {
+            unlink(public_path('img/categorias/' . $categoria->imagen));
+        }
+
+        $categoria->delete();
+
+        return redirect('categoria')
+                ->with('success', 'Categoria eliminada correctamente')
+                ->with('type', 'danger');
     }
 }

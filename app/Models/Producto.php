@@ -18,6 +18,11 @@ class Producto extends Model
         'usuario_id',
         'ciudad_id',
     ];
+
+    public function categoria()
+    {
+        return $this->belongsTo(Categoria::class, 'categoria_id');
+    }
 }
 
 

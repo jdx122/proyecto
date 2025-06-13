@@ -31,7 +31,7 @@
     </style>
   </head>
   <body >
-    <script src="{{ url('dist/js/demo-theme.min.js') }}'"></script>
+
     <div class="page">
       <!-- Navbar -->
       <header class="navbar navbar-expand-md d-print-none"  data-bs-theme="dark">

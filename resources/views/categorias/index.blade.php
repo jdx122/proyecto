@@ -2,6 +2,9 @@
 
 
     @section('styles')
+
+    <link rel="stylesheet" href="//cdn.datatables.net/2.3.2/css/dataTables.dataTables.min.css">
+
     <link rel="stylesheet" href="{{ url('css/lightbox.min.css') }}">
     <style>
       .error {
@@ -36,15 +39,22 @@
     @stop
 
     @section('content')
+
+      @if(session('success'))
+      <div class="alert alert-{{ session('type') }}">
+        {{ session('success') }}
+      </div>
+      @endif
       <table class="ui celled table">
-        <trehead>
+        <thead>
           <tr>
             <th>Imagen</th>
             <th>Nombre</th>
             <th>Descripcion</th>
             <th>Estado</th>
+            <th>Acciones</th>
           </tr>
-        </trehead>
+        </thead>
         <tbody>
           @foreach ($data as $categoria)
           <tr>
@@ -62,6 +72,7 @@
             </td>
             <td>{{ $categoria->nombre }}</td>
             <td>{{ $categoria->descripcion }}</td>
+            
             <td>
               @if($categoria->estado == 1)
               <span class="badge bg-green text-white">Activo</span>
@@ -79,7 +90,7 @@
                     <path d="M16 5l3 3" />
                   </svg>
                 </a>
-                <form action="{{ url('categoria/' . $categoria->id) }}" method="POST" style="display:inline;">
+                <form action="{{ route('categoria.destroy', $categoria->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoria?');">
                   @csrf
                   @method('DELETE')
                   <button type="submit" class="btn btn-danger">
@@ -94,6 +105,7 @@
                       <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
                     </svg>
                   </button>
+                </form>
               </div>
             </td>
           </tr>
@@ -103,6 +115,8 @@
     @stop
 
     @section('modal')
+  <form action="{{ url('categoria') }}" method="POST" enctype="multipart/form-data">
+    @csrf    
     <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
@@ -113,12 +127,6 @@
           </div>
 
           <div class="modal-body">
-
-            <form action="{{ url('categoria') }}" method="POST" enctype="multipart/form-data">
-              @csrf
-
-
-
 
               <div class="mb-3">
                 <label class="form-label">Nombre</label>
@@ -173,10 +181,31 @@
         </div>
       </div>
     </div>
-    </form>
+  </form>
     @stop
 
     @section('scripts')
+
+    <script src="https://cdn.datatables.net/2.3.2/js/dataTables.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('.table').DataTable({
+          "language": {
+            "url": "https://cdn.datatables.net/plug-ins/2.3.2/i18n/es-ES.json"
+          },
+          "order": [[ 1, "asc" ]] // Ordenar por la primera columna (nombre)
+        });
+      });
+    </script>
+
+    @if($errors->any())
+      <script>
+        $(document).ready(function() {
+          $('#modal-report').modal('show');
+        });
+      </script>
+    @endif
+
     <script src="{{ url('js/lightbox.min.js') }}"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function() {

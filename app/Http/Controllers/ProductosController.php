@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\producto;
 
+use Validator;
+
 class ProductosController extends Controller
 {
     /**
@@ -36,7 +38,7 @@ class ProductosController extends Controller
             'descripcion' => 'nullable|max:255',
             'valor' => 'required|numeric|min:0',
             'imagen' => 'nullable|image',
-            'estado_producto' => 'required|boolean',
+            'estado_producto' => 'required|in:nuevo,poco uso,usado',
             'categoria_id' => 'required|exists:categorias,id',
             'usuario_id' => 'required|exists:usuarios,id',
             'ciudad_id' => 'required|exists:ciudades,id',

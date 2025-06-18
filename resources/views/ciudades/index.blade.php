@@ -26,6 +26,7 @@
                 <th>Estado</th>
             </tr>
         </trehead>
+        
         <tbody>
             @foreach ($data as $categoria)
             <tr>
@@ -46,13 +47,12 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-
+            
             <form action="{{ url('ciudad') }}" method="POST" enctype="multipart/form-data">
               @csrf
 
-            
-
-
+                        
+        
             <div class="mb-3">
               <label class="form-label">Ciudad</label>
               <input type="text" class="form-control" name="nombre" placeholder="Nombre de la categoria" autofocus>

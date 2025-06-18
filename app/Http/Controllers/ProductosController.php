@@ -30,6 +30,22 @@ class ProductosController extends Controller
      */
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|max:255|unique:productos',
+            'slug' => 'required|unique:productos,slug',
+            'descripcion' => 'nullable|max:255',
+            'valor' => 'required|numeric|min:0',
+            'imagen' => 'nullable|image',
+            'estado_producto' => 'required|boolean',
+            'categoria_id' => 'required|exists:categorias,id',
+            'usuario_id' => 'required|exists:usuarios,id',
+            'ciudad_id' => 'required|exists:ciudades,id',
+        ]);
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
         $producto = new producto();
         
         $producto->nombre = $request->nombre;
@@ -49,13 +65,20 @@ class ProductosController extends Controller
         $producto->usuario_id = $request->usuario_id;
         $producto->ciudad_id = $request->ciudad_id;
 
-        
-      
-        
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('img/productos'), $filename);
+            $producto->imagen = $filename;
+        } else {
+            $producto->imagen = null; // O un valor por defecto
+        }
 
         $producto->save();
 
-        return redirect('producto')->with('success', 'producto creado correctamente');
+        return redirect('producto')
+                ->with('success', 'producto creada correctamente.')
+                ->with('type', 'success');
     }
 
     /**

@@ -154,7 +154,7 @@
                 <div class="col-lg-12">
                   <div class="mb-3">
                     <label class="form-label">Descripcion</label>
-                    <textarea class="form-control" rows="3" name="descripcion" value="{{ old('categoria') }}"></textarea>
+                    <textarea class="form-control" rows="3" name="descripcion" value="{{ old('descripcion') }}"></textarea>
                     @error('descripcion')
                     <div class="error">{{ $message }}</div>
                     @enderror

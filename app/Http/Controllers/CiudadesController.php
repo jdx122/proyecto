@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Ciudad;
 
+use Validator;
+
 class CiudadesController extends Controller
 {
     /**
@@ -33,13 +35,17 @@ class CiudadesController extends Controller
         $ciudad = new Ciudad();
         
         $ciudad->nombre = $request->nombre;
-        
+        $ciudad->estado = $request->estado;
+        //dd($request->all());
+
       
         
 
         $ciudad->save();
 
-        return redirect('ciudad')->with('success', 'Ciudad creada correctamente');
+        return redirect('ciudad')
+                ->with('success', 'Ciudad creada correctamente.')
+                ->with('type', 'success');
     }
 
     /**
@@ -55,7 +61,9 @@ class CiudadesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $ciudad = Ciudad::findOrFail($id);
+        
+        return view('ciudades.edit', compact('ciudad'));
     }
 
     /**
@@ -63,7 +71,25 @@ class CiudadesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|max:255|unique:ciudades,nombre,' . $id,
+            'estado' => 'required|boolean',
+
+
+        ]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+        $ciudad = Ciudad::findOrFail($id);
+
+        $ciudad->nombre = $request->nombre;
+        $ciudad->estado = $request->estado;
+
+        $ciudad->save();
+
+        return redirect('ciudad')
+                ->with('success', 'Ciudad actualizada correctamente.')
+                ->with('type', 'info');
     }
 
     /**
@@ -71,6 +97,16 @@ class CiudadesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $ciudad = Ciudad::findOrFail($id);
+        
+        if ($ciudad->delete()) {
+            return redirect('ciudad')
+                    ->with('success', 'Ciudad eliminada correctamente.')
+                    ->with('type', 'danger');
+        } else {
+            return redirect('ciudad')
+                    ->with('error', 'Error al eliminar la ciudad.')
+                    ->with('type', 'warning');
+        }
     }
 }

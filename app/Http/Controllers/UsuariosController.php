@@ -89,7 +89,9 @@ class UsuariosController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $usuario = Usuario::findOrFail($id);
+        
+        return view('usuarios.edit', compact('usuario'));
     }
 
     /**
@@ -97,7 +99,45 @@ class UsuariosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'nombre' => 'required|max:255|unique:usuarios,nombre,' . $id,
+            'movil' => 'required|numeric',
+            'email' => 'required|email|unique:usuarios,email,' . $id,
+            'password' => 'nullable',
+            'rol' => 'required|in:admin,vendedor',
+            'ciudad_id' => 'required|exists:ciudades,id',
+        ]);
+        if ($validator->fails()) {
+            dd($validator->errors());
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $usuario = Usuario::findOrFail($id);
+        
+        $usuario->nombre = $request->nombre;
+        $usuario->movil = $request->movil;
+        $usuario->email = $request->email;
+        if ($request->filled('password')) {
+            $usuario->password = bcrypt($request->password);
+        }
+        $usuario->rol = $request->rol;
+        $usuario->ciudad_id = $request->ciudad_id;
+
+        if ($request->hasFile('imagen')) {
+            $file = $request->file('imagen');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('img/usuarios'), $filename);
+            $usuario->imagen = $filename;
+        } else {
+            // No se actualiza la imagen si no se proporciona una nueva
+            // O puedes mantener la imagen actual si no se proporciona una nueva
+        }
+
+        $usuario->save();
+
+        return redirect('usuario')
+                ->with('success', 'Usuario actualizado correctamente.')
+                ->with('type', 'info');
     }
 
     /**
@@ -105,6 +145,24 @@ class UsuariosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $usuario = Usuario::findOrFail($id);
+
+        // Verificar si el usuario tiene pedidos asociados
+        if ($usuario->productos()->count() > 0) {
+            return redirect('usuario')
+                    ->with('error', 'No se puede eliminar el usuario porque tiene pedidos asociados.')
+                    ->with('type', 'warning');
+        }
+
+        // Eliminar la imagen si existe
+        if ($usuario->imagen && file_exists(public_path('img/usuarios/' . $usuario->imagen))) {
+            unlink(public_path('img/usuarios/' . $usuario->imagen));
+        }
+
+        $usuario->delete();
+
+        return redirect('usuario')
+                ->with('success', 'Usuario eliminado correctamente.')
+                ->with('type', 'danger');
     }
 }

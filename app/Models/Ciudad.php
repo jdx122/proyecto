@@ -12,4 +12,5 @@ class Ciudad extends Model
         'nombre',
         'estado',
     ];
+    
 }

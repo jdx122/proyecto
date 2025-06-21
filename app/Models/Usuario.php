@@ -15,4 +15,10 @@ class Usuario extends Model
         'rol',
         'ciudad_id'
     ];
+    
+    public function productos()
+{
+    return $this->hasMany(\App\Models\Producto::class, 'usuario_id');
+}
+
 }

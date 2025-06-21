@@ -42,6 +42,11 @@
     @stop
 
     @section('content')
+    @if(session('success'))
+    <div class="alert alert-{{ session('type') }}">
+      {{ session('success') }}
+    </div>
+    @endif
     <table class="ui celled table">
       <thead>
         <tr>
@@ -57,27 +62,54 @@
         </tr>
       </thead>
       <tbody>
-        @foreach ($data as $categoria)
+        @foreach ($data as $usuario)
         <tr>
           <td>
-            @if ($categoria->imagen)
-            <a href="{{ url('img/usuarios/' . $categoria->imagen) }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
-              <img src="{{ url('img/usuarios/' . $categoria->imagen) }}" class="img-category">
+            @if ($usuario->imagen)
+            <a href="{{ url('img/usuarios/' . $usuario->imagen) }}" data-lightbox="{{ $usuario->nombre }}" data-title="{{ $usuario->nombre }}">
+              <img src="{{ url('img/usuarios/' . $usuario->imagen) }}" class="img-category">
             </a>
 
             @else
-            <a href="{{ url('img/usuarios/avatar.png') }}" data-lightbox="{{ $categoria->nombre }}" data-title="{{ $categoria->nombre }}">
+            <a href="{{ url('img/usuarios/avatar.png') }}" data-lightbox="{{ $usuario->nombre }}" data-title="{{ $usuario->nombre }}">
               <img src="{{ url('img/usuarios/avatar.png') }}" class="img-category">
             </a>
             @endif
           </td>
-          <td>{{ $categoria->nombre }}</td>
-          <td>{{ $categoria->movil }}</td>
-          <td>{{ $categoria->email }}</td>
-          <!--<td>{{ $categoria->password }}</td>-->
-          <td>{{ $categoria->rol }}</td>
-          <td>{{ $categoria->ciudad_id }}</td>
-          <td></td>
+          <td>{{ $usuario->nombre }}</td>
+          <td>{{ $usuario->movil }}</td>
+          <td>{{ $usuario->email }}</td>
+          <!--<td>{{ $usuario->password }}</td>-->
+          <td>{{ $usuario->rol }}</td>
+          <td>{{ $usuario->ciudad_id }}</td>
+          <td>
+            <div>
+              <a href="{{ url('usuario/'.$usuario->id.'/edit') }}" class="btn btn-default" title="Editar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                  <path d="M16 5l3 3" />
+                </svg>
+              </a>
+              <form action="{{ route('usuario.destroy', $usuario->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoria?');">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash-off">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M3 3l18 18" />
+                    <path d="M4 7h3m4 0h9" />
+                    <path d="M10 11l0 6" />
+                    <path d="M14 14l0 3" />
+                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923" />
+                    <path d="M18.384 14.373l.616 -7.373" />
+                    <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </td>
         </tr>
         @endforeach
 
@@ -117,7 +149,7 @@
                 <label class="form-label">imagen</label>
                 <input type="file" class="form-control" name="imagen" placeholder="Imagen del producto" accept="image/*">
                 @error('imagen')
-                  <div class="error">{{ $message }}</div>
+                <div class="error">{{ $message }}</div>
                 @enderror
               </div>
 
@@ -143,17 +175,20 @@
               <div class="row">
                 <div class="col-lg-6 mb-3">
                   <label class="form-label">Rol</label>
-                  <input type="text" class="form-control" name="rol" value="vendedor" readonly>
+                  <select class="form-control" name="rol" required>
+                    <option value="vendedor" {{ old('rol') == 'vendedor' ? 'selected' : '' }}>Vendedor</option>
+                    <option value="admin" {{ old('rol') == 'admin' ? 'selected' : '' }}>Admin</option>
+                  </select>
                   @error('rol')
-                    <div class="error">{{ $message }}</div>
+                  <div class="error">{{ $message }}</div>
                   @enderror
                 </div>
 
                 <div class="col-lg-6 mb-3">
-                  <label class="form-label">ciudad_id</label>
-                  <input type="text" class="form-control" name="ciudad_id" placeholder="ciudad_id de usuario" required value="{{ old('ciudad_id') }}">
+                  <label class="form-label">Ciudad</label>
+                  <input type="text" class="form-control" name="ciudad_id" placeholder="ID de la ciudad" required value="{{ old('ciudad_id') }}">
                   @error('ciudad_id')
-                    <div class="error">{{ $message }}</div>
+                  <div class="error">{{ $message }}</div>
                   @enderror
                 </div>
               </div>
@@ -179,8 +214,8 @@
         </div>
     </form>
 
-    
-    
+
+
     @stop
 
     @section('scripts')

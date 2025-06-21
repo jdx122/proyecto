@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Comentario;
+use App\Models\usuario;
+
+use Validator;
 
 class ComentariosController extends Controller
 {
@@ -13,8 +16,11 @@ class ComentariosController extends Controller
     public function index()
     {
         $data = Comentario::all();
+        $usuarios = usuario::all();
 
-        return view('comentarios.index', compact('data'));
+        return view('comentarios.index', compact('data', 'usuarios'));
+
+        
     }
 
     /**
@@ -30,7 +36,25 @@ class ComentariosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'descripcion' => 'required|string|max:500',
+            'estado' => 'required|in:0,1',
+            'valoracion' => 'required|integer|between:1,5',
+            'producto_id' => 'required|exists:productos,id',
+            'usuario_id' => 'required|exists:users,id',
+        ]);
+
+        // Si falla la validación, redirige con errores y datos antiguos
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Crear comentario
+        Comentario::create($validator->validated());
+
+        return redirect()->back()->with('success', 'Comentario guardado correctamente.');
     }
 
     /**

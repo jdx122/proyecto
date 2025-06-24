@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ciudad;
+use Illuminate\Database\QueryException;
 
 use Validator;
 
@@ -33,19 +34,19 @@ class CiudadesController extends Controller
     public function store(Request $request)
     {
         $ciudad = new Ciudad();
-        
+
         $ciudad->nombre = $request->nombre;
         $ciudad->estado = $request->estado;
         //dd($request->all());
 
-      
-        
+
+
 
         $ciudad->save();
 
         return redirect('ciudad')
-                ->with('success', 'Ciudad creada correctamente.')
-                ->with('type', 'success');
+            ->with('success', 'Ciudad creada correctamente.')
+            ->with('type', 'success');
     }
 
     /**
@@ -62,7 +63,7 @@ class CiudadesController extends Controller
     public function edit(string $id)
     {
         $ciudad = Ciudad::findOrFail($id);
-        
+
         return view('ciudades.edit', compact('ciudad'));
     }
 
@@ -88,25 +89,29 @@ class CiudadesController extends Controller
         $ciudad->save();
 
         return redirect('ciudad')
-                ->with('success', 'Ciudad actualizada correctamente.')
-                ->with('type', 'info');
+            ->with('success', 'Ciudad actualizada correctamente.')
+            ->with('type', 'info');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+
+    public function destroy($id)
     {
-        $ciudad = Ciudad::findOrFail($id);
-        
-        if ($ciudad->delete()) {
+        try {
+            $ciudad = Ciudad::findOrFail($id);
+
+            $ciudad->delete();
+
             return redirect('ciudad')
-                    ->with('success', 'Ciudad eliminada correctamente.')
-                    ->with('type', 'danger');
-        } else {
+                ->with('success', 'Ciudad eliminada correctamente.')
+                ->with('type', 'danger');
+        } catch (QueryException $e) {
+            // Error por clave foránea
             return redirect('ciudad')
-                    ->with('error', 'Error al eliminar la ciudad.')
-                    ->with('type', 'warning');
+                ->with('error', 'No se puede eliminar la ciudad porque está asociada a productos.')
+                ->with('type', 'warning');
         }
     }
 }

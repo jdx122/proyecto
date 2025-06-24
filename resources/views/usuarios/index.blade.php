@@ -47,73 +47,88 @@
       {{ session('success') }}
     </div>
     @endif
-    <table class="ui celled table">
-      <thead>
-        <tr>
-          <th>Imagen</th>
-          <th>Nombre</th>
-          <th>Movil</th>
-          <th>Email</th>
-          <!--<th>Contraseña</th>-->
-          <th>Rol</th>
-          <th>Ciudad_id</th>
-          <th>Acciones</th>
+    @if(session('error'))
+    <div class="alert alert-{{ session('type') }}">
+      {{ session('error') }}
+    </div>
+    @endif
+    <div class="table-responsive">
+      <table class="table tabla-personalizada">
+        <thead>
+          <tr>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Movil</th>
+            <th>Email</th>
+            <!--<th>Contraseña</th>-->
+            <th>Acciones</th>
 
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($data as $usuario)
-        <tr>
-          <td>
-            @if ($usuario->imagen)
-            <a href="{{ url('img/usuarios/' . $usuario->imagen) }}" data-lightbox="{{ $usuario->nombre }}" data-title="{{ $usuario->nombre }}">
-              <img src="{{ url('img/usuarios/' . $usuario->imagen) }}" class="img-category">
-            </a>
-
-            @else
-            <a href="{{ url('img/usuarios/avatar.png') }}" data-lightbox="{{ $usuario->nombre }}" data-title="{{ $usuario->nombre }}">
-              <img src="{{ url('img/usuarios/avatar.png') }}" class="img-category">
-            </a>
-            @endif
-          </td>
-          <td>{{ $usuario->nombre }}</td>
-          <td>{{ $usuario->movil }}</td>
-          <td>{{ $usuario->email }}</td>
-          <!--<td>{{ $usuario->password }}</td>-->
-          <td>{{ $usuario->rol }}</td>
-          <td>{{ $usuario->ciudad_id }}</td>
-          <td>
-            <div>
-              <a href="{{ url('usuario/'.$usuario->id.'/edit') }}" class="btn btn-default" title="Editar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                  <path d="M16 5l3 3" />
-                </svg>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($data as $usuario)
+          <tr>
+            <td>
+              @if ($usuario->imagen)
+              <a href="{{ url('img/usuarios/' . $usuario->imagen) }}" data-lightbox="{{ $usuario->nombre }}" data-title="{{ $usuario->nombre }}">
+                <img src="{{ url('img/usuarios/' . $usuario->imagen) }}" class="img-category">
               </a>
-              <form action="{{ route('usuario.destroy', $usuario->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta categoria?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash-off">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 3l18 18" />
-                    <path d="M4 7h3m4 0h9" />
-                    <path d="M10 11l0 6" />
-                    <path d="M14 14l0 3" />
-                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923" />
-                    <path d="M18.384 14.373l.616 -7.373" />
-                    <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
-                  </svg>
-                </button>
-              </form>
-            </div>
-          </td>
-        </tr>
-        @endforeach
 
-    </table>
+              @else
+              <a href="{{ url('img/usuarios/avatar.png') }}" data-lightbox="{{ $usuario->nombre }}" data-title="{{ $usuario->nombre }}">
+                <img src="{{ url('img/usuarios/avatar.png') }}" class="img-category">
+              </a>
+              @endif
+            </td>
+            <td>{{ $usuario->nombre }}</td>
+            <td>{{ $usuario->movil }}</td>
+            <td>{{ $usuario->email }}</td>
+            <!--<td>{{ $usuario->password }}</td>-->
+            <td>
+              <div class="d-flex gap-1">
+                <a href="{{ url('usuario/'.$usuario->id.'/edit') }}" class="btn btn-default" title="Editar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                    <path d="M16 5l3 3" />
+                  </svg>
+                </a>
+
+                <a href="{{ route('usuario.show', $usuario->id) }}" class="btn btn-info" title="Ver">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="icon icon-tabler icon-tabler-eye">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 12m-4,0a4,4 0 1,0 8,0a4,4 0 1,0 -8,0" />
+                    <path d="M3 12c2.5 -5 7 -8 9 -8s6.5 3 9 8c-2.5 5 -7 8 -9 8s-6.5 -3 -9 -8" />
+                  </svg>
+                </a>
+
+                <form action="{{ route('usuario.destroy', $usuario->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-danger" title="Eliminar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash-off">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M3 3l18 18" />
+                      <path d="M4 7h3m4 0h9" />
+                      <path d="M10 11l0 6" />
+                      <path d="M14 14l0 3" />
+                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923" />
+                      <path d="M18.384 14.373l.616 -7.373" />
+                      <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </td>
+
+          </tr>
+          @endforeach
+
+      </table>
+    </div>
     @stop
 
     @section('modal')

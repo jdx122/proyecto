@@ -20,5 +20,16 @@ class Usuario extends Model
 {
     return $this->hasMany(\App\Models\Producto::class, 'usuario_id');
 }
+    public function ciudad()
+    {
+        return $this->belongsTo(\App\Models\Ciudad::class, 'ciudad_id');
+    }
+    
+    public function comentarios()
+    {
+        return $this->hasMany(\App\Models\Comentario::class, 'usuario_id');
+    }
+    
+    use HasFactory;
 
 }

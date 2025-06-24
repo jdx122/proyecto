@@ -34,7 +34,13 @@
       {{ session('success') }}
     </div>
     @endif
-    <table class="ui celled table">
+    @if(session('error'))
+    <div class="alert alert-{{ session('type') }}">
+      {{ session('error') }}
+    </div>
+    @endif
+  <div class="table-responsive">
+    <table class="table tabla-personalizada">
       <thead>
         <tr>
           <th>Nombre</th>
@@ -86,6 +92,12 @@
         @endforeach
 
     </table>
+      </div>
+      @if($data->count() == 0)
+      <div class="alert alert-info">
+        No hay ciudades registradas.
+      </div>
+      @endif
     @stop
 
     @section('modal')

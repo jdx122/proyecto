@@ -81,7 +81,9 @@ class UsuariosController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $usuario = Usuario::findOrFail($id);
+        
+        return view('usuarios.show', compact('usuario'));
     }
 
     /**
@@ -150,7 +152,7 @@ class UsuariosController extends Controller
         // Verificar si el usuario tiene pedidos asociados
         if ($usuario->productos()->count() > 0) {
             return redirect('usuario')
-                    ->with('error', 'No se puede eliminar el usuario porque tiene pedidos asociados.')
+                    ->with('error', 'No se puede eliminar el usuario porque tiene productos asociados.')
                     ->with('type', 'warning');
         }
 
@@ -164,5 +166,7 @@ class UsuariosController extends Controller
         return redirect('usuario')
                 ->with('success', 'Usuario eliminado correctamente.')
                 ->with('type', 'danger');
+
+                
     }
 }

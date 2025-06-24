@@ -49,7 +49,13 @@
       {{ session('success') }}
     </div>
     @endif
-    <table class="ui celled table">
+    @if(session('error'))
+    <div class="alert alert-{{ session('type') }}">
+      {{ session('error') }}
+    </div>
+    @endif
+  <div class="table-responsive">
+    <table class="table tabla-personalizada">
       <thead>
         <tr>
           <th>Imagen</th>
@@ -114,8 +120,9 @@
           </td>
         </tr>
         @endforeach
-
+    
     </table>
+  </div>
     @stop
 
     @section('modal')

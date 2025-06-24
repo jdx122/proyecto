@@ -14,4 +14,9 @@ class Comentario extends Model
         'usuario_id',
     ];
 
+    public function producto()
+    {
+        return $this->belongsTo(Producto::class, 'producto_id');
+    }
+
 }

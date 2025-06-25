@@ -265,11 +265,12 @@
         </div>
         <!-- Page body -->
         <div class="page-body">
-          <div class="container-xl">  
+          <div class="container-xl">
+              
 
             <div class="card">
               <div class="card-header">
-                @yield('title')
+                @yield('title')             
               </div>
               <div class="card-body p-3">
                 @yield('content')  

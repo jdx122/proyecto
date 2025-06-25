@@ -41,9 +41,15 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)){
-            return redirect()
+            return redirect()->intended('inicio')
+                            ->with('type','success')
+                            ->with('message','Bienvenido, ' . Auth::user()->nombre);
+        } else {
+            return redirect('login')
+                            ->with('type','danger')
+                            ->with('message','Credenciales incorrectas');
         }
-
+    }
 
 
 }

@@ -19,6 +19,9 @@ use Illuminate\Http\Usuario;
 
 
 Route::get('/', function () {
+    if (auth()->check()) {
+        return redirect('inicio');
+    }
     return view('login');
 });
 
@@ -34,8 +37,13 @@ Route::get('/terminos-condiciones', function () {
     return view('terminos');
 });
 
+Route::get('/inicio', function () {
+    return view('inicio');
+});
+
 
 Route::post('register', [LoginController::class, 'login']);
+
 Route::post('check', [LoginController::class, 'check']);
 
 

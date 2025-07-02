@@ -51,5 +51,13 @@ class LoginController extends Controller
         }
     }
 
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('login')
+                        ->with('type','danger')
+                        ->with('message','Sesión cerrada exitosamente');
+    }
+
 
 }

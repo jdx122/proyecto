@@ -164,12 +164,10 @@
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow" data-bs-theme="light">
-                <a href="#" class="dropdown-item">Status</a>
-                <a href="#" class="dropdown-item">Profile</a>
-                <a href="#" class="dropdown-item">Feedback</a>
+                <a href="#" class="dropdown-item">Perfil</a>
+                <a href="{{ route('marketplace.index') }}" class="dropdown-item">Marketplace</a>
                 <div class="dropdown-divider"></div>
-                <a href="./settings.html" class="dropdown-item">Settings</a>
-                <a href="./sign-in.html" class="dropdown-item">Logout</a>
+                <a href="logout" class="dropdown-item">Cerrar Sesion</a>
               </div>
             </div>
           </div>

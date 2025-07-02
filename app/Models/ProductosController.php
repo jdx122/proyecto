@@ -100,9 +100,8 @@ class ProductosController extends Controller
      */
     public function show(string $id)
     {
-       
         $data = Producto::all();
-        $producto = Producto::with(['categoria', 'ciudad', 'usuario'])->findOrFail($id);
+        $producto = Producto::findOrFail($id);
         $categorias = Categoria::all();
         $ciudades = Ciudad::all();
         $usuarios = Usuario::all();

@@ -32,10 +32,11 @@ class MarketController extends Controller
 
     public function porCategoria($slug)
     {
-        $categoria = \App\Models\Categoria::where('slug', $slug)->firstOrFail();
-        $productos = \App\Models\Producto::where('categoria_id', $categoria->id)->get();
-        $categorias = \App\Models\Categoria::all();
-        $ciudades = \App\Models\Ciudad::all();
+        $categoria = Categoria::where('slug', $slug)->firstOrFail();
+        $productos = Producto::where('categoria_id', $categoria->id)->get();
+        $categorias = Categoria::all();
+        $ciudades = Ciudad::all();
+        
 
         return view('marketplace.show', [
             'categoria' => $categoria,

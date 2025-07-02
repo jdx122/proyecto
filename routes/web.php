@@ -65,5 +65,3 @@ Route::get('/productos/categoria/{slug}', [MarketController::class, 'porCategori
 
 
 
-
-

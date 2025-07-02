@@ -40,7 +40,7 @@
       </div>
     </div>
     @stop
-    <!--@if ($errors->any())
+    @if ($errors->any())
     <div class="alert alert-danger">
       <ul>
         @foreach ($errors->all() as $error)
@@ -48,7 +48,7 @@
         @endforeach
       </ul>
     </div>
-    @endif-->
+    @endif
 
     @section('content')
     @if(session('success'))
@@ -144,7 +144,7 @@
                     </svg>
                   </button>
                 </form>
-                
+
               </div>
 
             </td>

@@ -81,10 +81,10 @@
                         <div class="dropdown-menu">
                             <nav class="side-nav">
                                 <ul class="menu-vertical sf-arrows">
-                                    @foreach ($categorias as $categoria)
+                                    @foreach ($categorias as $cat)
                                     <li>
                                         <a href="{{ route('productos.categoria', $categoria->slug) }}">
-                                            {{ $categoria->nombre }}
+                                            {{ $cat->nombre }}
                                         </a>
                                     </li>
                                     @endforeach
@@ -120,7 +120,10 @@
 
     <main class="main">
         <div class="container">
-            <h2 class="mb-4 mt-4">Productos en <strong>{{ $categoria->nombre }}</strong></h2>
+
+            <h2 class="mb-4 mt-4">Productos en <strong>{{$categoria->nombre }}</strong></h2>
+          
+          
 
             <div class="row">
                 @forelse ($productos as $producto)

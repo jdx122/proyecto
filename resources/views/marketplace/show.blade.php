@@ -36,7 +36,7 @@
                         <i class="icon-bars"></i>
                     </button>
 
-                    <a href="#" class="logo">
+                    <a href="../../marketplace" class="logo">
                         <img src="{{ asset('assets/images/demos/demo-4/logo.png') }}" alt="Molla Logo" width="105" height="25">
                     </a>
                 </div>
@@ -132,7 +132,7 @@
                         <img src="{{ asset('img/productos/' . $producto->imagen) }}" class="card-img-top" alt="{{ $producto->nombre }}">
                         <div class="card-body text-center">
                             <h5 class="card-title">{{ $producto->nombre }}</h5>
-                            <p class="card-text">${{ number_format($producto->precio, 2) }}</p>
+                            <p class="card-text">${{ number_format($producto->valor, 2) }}</p>
                             <a href="#" class="btn btn-outline-primary">Ver</a>
                         </div>
                     </div>

@@ -237,9 +237,9 @@
                 </div>
 
                 <div class="col-lg-4">
-                  <label class="form-label">usuario</label>
+                  <label class="form-label">Usuario</label>
                   <select name="usuario_id" class="form-control" required>
-                    <option value="">-- Selecciona una usuario --</option>
+                    <option value="">-- Selecciona un usuario --</option>
                     @foreach ($usuarios as $usuario)
                     <option value="{{ $usuario->id }}" {{ old('usuario_id') == $usuario->id ? 'selected' : '' }}>{{ $usuario->nombre }}</option>
                     @endforeach

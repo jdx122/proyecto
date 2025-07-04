@@ -11,7 +11,8 @@
       .error {
         color: red;
         font-size: 0.875em;
-      }    
+      }
+
       .star-rating {
         direction: rtl;
         unicode-bidi: bidi-override;
@@ -70,77 +71,77 @@
       {{ session('error') }}
     </div>
     @endif
-  <div class="table-responsive">
+    <div class="table-responsive">
 
-    <table class="table tabla-personalizada">
-      <thead>
-        <tr>
+      <table class="table tabla-personalizada">
+        <thead>
+          <tr>
 
-          <th>Descripcion</th>
-          <th>Estado</th>
-          <th>valoracion</th>
-          <th>Acciones</th>
+            <th>Descripcion</th>
+            <th>Estado</th>
+            <th>valoracion</th>
+            <th>Acciones</th>
 
 
 
-        </tr>
-      </thead>
-      <tbody>
-        @foreach ($data as $comentario)
-        <tr>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($data as $comentario)
+          <tr>
 
-          <td>{{ $comentario->descripcion }}</td>
-          <td>
-            @if($comentario->estado == 1)
-            <span class="badge bg-green text-white">Activo</span>
-            @else
-            <span class="badge bg-red text-white">Inactivo</span>
-            @endif
-          </td>
-
-          <td>
-            @for ($i = 1; $i <= 5; $i++)
-              @if($i <=$comentario->valoracion)
-              <span style="color: gold;">&#9733;</span>
+            <td>{{ $comentario->descripcion }}</td>
+            <td>
+              @if($comentario->estado == 1)
+              <span class="badge bg-green text-white">Activo</span>
               @else
-              <span style="color: #ccc;">&#9733;</span>
+              <span class="badge bg-red text-white">Inactivo</span>
               @endif
-              @endfor
-          </td>
+            </td>
 
-          <td>
-            <div>
-              <a href="{{ url('comentario/'.$comentario->id.'/edit') }}" class="btn btn-default" title="Editar">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
-                  <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
-                  <path d="M16 5l3 3" />
-                </svg>
-              </a>
-              <form action="{{ route('comentario.destroy', $comentario->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta comentario?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="btn btn-danger">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash-off">
+            <td>
+              @for ($i = 1; $i <= 5; $i++)
+                @if($i <=$comentario->valoracion)
+                <span style="color: gold;">&#9733;</span>
+                @else
+                <span style="color: #ccc;">&#9733;</span>
+                @endif
+                @endfor
+            </td>
+
+            <td>
+              <div>
+                <a href="{{ url('comentario/'.$comentario->id.'/edit') }}" class="btn btn-default" title="Editar">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-edit">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M3 3l18 18" />
-                    <path d="M4 7h3m4 0h9" />
-                    <path d="M10 11l0 6" />
-                    <path d="M14 14l0 3" />
-                    <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923" />
-                    <path d="M18.384 14.373l.616 -7.373" />
-                    <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    <path d="M7 7h-1a2 2 0 0 0 -2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2 -2v-1" />
+                    <path d="M20.385 6.585a2.1 2.1 0 0 0 -2.97 -2.97l-8.415 8.385v3h3l8.385 -8.415z" />
+                    <path d="M16 5l3 3" />
                   </svg>
-                </button>
-              </form>
-            </div>
-          </td>
-        </tr>
-        @endforeach
+                </a>
+                <form action="{{ route('comentario.destroy', $comentario->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('¿Estás seguro de eliminar esta comentario?');">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-danger">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-trash-off">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M3 3l18 18" />
+                      <path d="M4 7h3m4 0h9" />
+                      <path d="M10 11l0 6" />
+                      <path d="M14 14l0 3" />
+                      <path d="M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2 -2l.077 -.923" />
+                      <path d="M18.384 14.373l.616 -7.373" />
+                      <path d="M9 5v-1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v3" />
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </td>
+          </tr>
+          @endforeach
 
-    </table>
-  </div>
+      </table>
+    </div>
     @stop
     <form action="{{ url('comentario') }}" method="POST" enctype="multipart/form-data">
       @csrf
@@ -199,33 +200,33 @@
                   @enderror
                 </div>
 
-                <div class="col-lg-6 mb-3">
+                <div class="col-lg-4">
                   <label class="form-label">Usuario</label>
-                  <input type="text" class="form-control" name="usuario_id" placeholder="ID del usuario" required value="{{ old('usuario_id') }}">
-                  @error('usuario_id')
-                  <div class="error text-danger">{{ $message }}</div>
-                  @enderror
+                  <select name="usuario_id" class="form-control" required>
+                    <option value="">-- Selecciona un usuario --</option>
+                    @foreach ($usuarios as $usuario)
+                    <option value="{{ $usuario->id }}" {{ old('usuario_id') == $usuario->id ? 'selected' : '' }}>{{ $usuario->nombre }}</option>
+                    @endforeach
+                  </select>
                 </div>
-              </div>
 
-
-              <div class="modal-footer">
-                <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancelar</a>
-                <button type="submit" class="btn btn-primary">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                    class="icon icon-tabler icon-tabler-send">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 14l11 -11" />
-                    <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
-                  </svg>
-                  Enviar
-                </button>
+                <div class="modal-footer">
+                  <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">Cancelar</a>
+                  <button type="submit" class="btn btn-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                      viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                      stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                      class="icon icon-tabler icon-tabler-send">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M10 14l11 -11" />
+                      <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
+                    </svg>
+                    Enviar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
     </form>
     @stop
 

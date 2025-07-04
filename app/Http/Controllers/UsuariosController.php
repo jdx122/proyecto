@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Usuario;
+use App\Models\Categoria;
+
 
 use Validator;
 
@@ -15,8 +17,9 @@ class UsuariosController extends Controller
     public function index()
     {
         $data = Usuario::all();
+        $ciudades = \App\Models\Ciudad::all();
 
-        return view('usuarios.index', compact('data'));
+        return view('usuarios.index', compact('data', 'ciudades'));
     }
 
     /**
@@ -24,7 +27,9 @@ class UsuariosController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Categoria::all();
+        $usuarios = Usuario::all();
+        return view('producto.create', compact('categorias', 'usuarios'));
     }
 
     /**
@@ -43,10 +48,10 @@ class UsuariosController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator)->withInput();
         }
-        
+
 
         $usuario = new usuario();
-        
+
         $usuario->nombre = $request->nombre;
         $usuario->movil = $request->movil;
         $usuario->email = $request->email;
@@ -73,8 +78,8 @@ class UsuariosController extends Controller
         $usuario->save();
 
         return redirect('usuario')
-                ->with('success', 'Usuario creado correctamente.')
-                ->with('type', 'success');
+            ->with('success', 'Usuario creado correctamente.')
+            ->with('type', 'success');
     }
     /**
      * Display the specified resource.
@@ -82,7 +87,7 @@ class UsuariosController extends Controller
     public function show(string $id)
     {
         $usuario = Usuario::findOrFail($id);
-        
+
         return view('usuarios.show', compact('usuario'));
     }
 
@@ -92,8 +97,9 @@ class UsuariosController extends Controller
     public function edit(string $id)
     {
         $usuario = Usuario::findOrFail($id);
-        
-        return view('usuarios.edit', compact('usuario'));
+        $ciudades = \App\Models\Ciudad::all();
+
+        return view('usuarios.edit', compact('usuario', 'ciudades'));
     }
 
     /**
@@ -115,7 +121,7 @@ class UsuariosController extends Controller
         }
 
         $usuario = Usuario::findOrFail($id);
-        
+
         $usuario->nombre = $request->nombre;
         $usuario->movil = $request->movil;
         $usuario->email = $request->email;
@@ -138,8 +144,8 @@ class UsuariosController extends Controller
         $usuario->save();
 
         return redirect('usuario')
-                ->with('success', 'Usuario actualizado correctamente.')
-                ->with('type', 'info');
+            ->with('success', 'Usuario actualizado correctamente.')
+            ->with('type', 'info');
     }
 
     /**
@@ -152,8 +158,8 @@ class UsuariosController extends Controller
         // Verificar si el usuario tiene pedidos asociados
         if ($usuario->productos()->count() > 0) {
             return redirect('usuario')
-                    ->with('error', 'No se puede eliminar el usuario porque tiene productos asociados.')
-                    ->with('type', 'warning');
+                ->with('error', 'No se puede eliminar el usuario porque tiene productos asociados.')
+                ->with('type', 'warning');
         }
 
         // Eliminar la imagen si existe
@@ -164,9 +170,7 @@ class UsuariosController extends Controller
         $usuario->delete();
 
         return redirect('usuario')
-                ->with('success', 'Usuario eliminado correctamente.')
-                ->with('type', 'danger');
-
-                
+            ->with('success', 'Usuario eliminado correctamente.')
+            ->with('type', 'danger');
     }
 }

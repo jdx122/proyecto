@@ -199,34 +199,35 @@
                   @enderror
                 </div>
 
-                <div class="col-lg-6 mb-3">
+                <div class="col-lg-4">
                   <label class="form-label">Ciudad</label>
-                  <input type="text" class="form-control" name="ciudad_id" placeholder="ID de la ciudad" required value="{{ old('ciudad_id') }}">
-                  @error('ciudad_id')
-                  <div class="error">{{ $message }}</div>
-                  @enderror
+                  <select name="ciudad_id" class="form-control" required>
+                    <option value="">-- Selecciona una ciudad --</option>
+                    @foreach ($ciudades as $ciudad)
+                    <option value="{{ $ciudad->id }}" {{ old('ciudad_id' , $producto->ciudad_id ?? '') == $ciudad->id ? 'selected' : '' }}>{{ $ciudad->nombre }}</option>
+                    @endforeach
+                  </select>
                 </div>
-              </div>
 
 
 
-              <div class="modal-footer">
-                <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                  Cancelar
-                </a>
-                <button class="btn btn-primary ms-auto">
-                  <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-send">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 14l11 -11" />
-                    <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
-                  </svg>
-                  Enviar
-                </button>
+                <div class="modal-footer">
+                  <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                    Cancelar
+                  </a>
+                  <button class="btn btn-primary ms-auto">
+                    <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-send">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                      <path d="M10 14l11 -11" />
+                      <path d="M21 3l-6.5 18a.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a.55 .55 0 0 1 0 -1l18 -6.5" />
+                    </svg>
+                    Enviar
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
     </form>
 
 

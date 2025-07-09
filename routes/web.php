@@ -52,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('producto', ProductosController::class);
     Route::resource('comentario', ComentariosController::class);
     Route::resource('usuario', UsuariosController::class);
+    
+
 
 });
 
@@ -59,9 +61,19 @@ Route::middleware(['auth'])->group(function () {
 //rutas de marketplace
 Route::get('/marketplace', [MarketController::class, 'index'])->name('marketplace.index');
 
+
+
 // ruta para filtrar por categoría
 Route::get('/productos/categoria/{slug}', [MarketController::class, 'porCategoria'])
     ->name('productos.categoria');
+
+Route::get('/producto/{id}', [MarketController::class, 'show'])->name('producto.show');
+
+Route::get('/comentarios-lista', [ComentariosController::class, 'vistaPublica'])->name('comentarios.publica');
+
+Route::get('/comentarios-publicos', [MarketController::class, 'comentariosPublicos']);
+
+
 
 
 

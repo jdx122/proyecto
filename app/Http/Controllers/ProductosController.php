@@ -105,7 +105,7 @@ class ProductosController extends Controller
         $producto = Producto::with(['categoria', 'ciudad', 'usuario'])->findOrFail($id);
         $categorias = Categoria::all();
         $ciudades = Ciudad::all();
-        $usuarios = Usuario::all();
+        $usuarios = Usuario::all(); 
 
         return view('productos.show', compact('data','producto', 'categorias', 'ciudades', 'usuarios'));
     }

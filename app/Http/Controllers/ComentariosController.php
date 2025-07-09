@@ -130,4 +130,9 @@ class ComentariosController extends Controller
             ->with('success', 'Comentario eliminado correctamente.')
             ->with('type', 'danger');
     }
+    public function vistaPublica()
+    {
+        $comentarios = Comentario::with('producto')->where('estado', 'Aprobado')->get();
+        return view('marketplace.comentarios', compact('comentarios'));
+    }
 }
